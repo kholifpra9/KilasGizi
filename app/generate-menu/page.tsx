@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { supabase } from '@/lib/supabase';
 import type { MenuResult, CheapIngredient } from '@/lib/schemas';
 import { allocateBudgetPerMeal, type MealTime } from '@/lib/budget-allocation';
+import { createClient } from '@/lib/supabase/client';
 
 export default function GenerateMenuPage() {
   const [budget, setBudget] = useState('');
@@ -16,6 +17,7 @@ export default function GenerateMenuPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<MenuResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   // Ambil bahan termurah dari data TanyaHarga — LANGSUNG dari Supabase,
   // tanpa lewat API TanyaHarga sama sekali (sesuai keputusan arsitektur "shared Supabase")
@@ -52,6 +54,10 @@ export default function GenerateMenuPage() {
       setCheapIngredients(cheapest);
       setIsLoadingIngredients(false);
     }
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      setUserEmail(data.user?.email ?? null);
+    });
 
     loadCheapIngredients();
   }, []);
@@ -80,7 +86,11 @@ export default function GenerateMenuPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setErrorMessage(data.error ?? 'Terjadi kesalahan, coba lagi');
+        if (response.status === 403 && data.requiresLogin) {
+          setErrorMessage(data.error);
+        } else {
+          setErrorMessage(data.error ?? 'Terjadi kesalahan, coba lagi');
+        }
         return;
       }
 
@@ -92,10 +102,31 @@ export default function GenerateMenuPage() {
     }
   }
 
+  async function handleLogout() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    window.location.reload();
+  }
+
   const isFormValid = Number(budget) > 0 && Number(portions) > 0;
 
   return (
     <div className="max-w-xl mx-auto py-10 px-4 space-y-4">
+      <div className="flex justify-between items-center text-sm">
+        {userEmail ? (
+          <>
+            <span className="text-muted-foreground">Login sebagai {userEmail}</span>
+            <div className="flex gap-3">
+              <a href="/history" className="underline text-muted-foreground">Riwayat</a>
+              <button onClick={handleLogout} className="underline text-muted-foreground">Keluar</button>
+            </div>
+          </>
+        ) : (
+          <a href="/login?redirectTo=/generate-menu" className="underline text-muted-foreground">
+            Login untuk generate tanpa batas
+          </a>
+        )}
+      </div>
       <div>
         <h1 className="text-2xl font-semibold">Buat Menu Sehat</h1>
         <p className="text-sm text-muted-foreground">
@@ -138,7 +169,14 @@ export default function GenerateMenuPage() {
       </Button>
 
       {errorMessage && (
-        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">{errorMessage}</p>
+        <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">
+          <p>{errorMessage}</p>
+          {errorMessage.includes('Login') && (
+            <a href="/login?redirectTo=/generate-menu" className="underline font-medium">
+              Login sekarang →
+            </a>
+          )}
+        </div>
       )}
 
       {result && (

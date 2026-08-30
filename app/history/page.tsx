@@ -1,10 +1,21 @@
-import { supabaseAdmin } from '@/lib/supabase-admin';
+import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
 import type { MenuResult } from '@/lib/schemas';
 
 export default async function HistoryPage() {
-  const { data: menus } = await supabaseAdmin
+  // ✏️ DIUBAH — pakai session-aware client, bukan supabaseAdmin
+  const supabaseServer = await createServerSupabaseClient();
+  const { data: { user } } = await supabaseServer.auth.getUser();
+
+  // Defense-in-depth: middleware (section 4) sudah redirect kalau belum login,
+  // tapi tetap dicek di sini juga kalau-kalau middleware ke-skip untuk alasan tertentu
+  if (!user) {
+    return null;
+  }
+
+  const { data: menus } = await supabaseServer
     .from('menus')
     .select('id, budget, portions, ai_result, created_at')
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(20);
 
@@ -12,7 +23,7 @@ export default async function HistoryPage() {
     <div className="max-w-2xl mx-auto py-10 px-4 space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Riwayat Menu</h1>
-        <p className="text-sm text-muted-foreground">Menu yang pernah dibuat sebelumnya.</p>
+        <p className="text-sm text-muted-foreground">Menu yang pernah kamu buat sebelumnya.</p>
       </div>
 
       {menus && menus.length > 0 ? (
