@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { generateMenu } from '@/lib/groq';
 import { menuResultSchema } from '@/lib/schemas';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export async function POST(request: Request) {
   try {
@@ -17,6 +18,22 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       console.error('Zod validation failed:', JSON.stringify(parsed.error.issues, null, 2));
       return NextResponse.json({ error: 'Gagal membuat menu, coba lagi' }, { status: 422 });
+    }
+
+     // user_id masih null untuk sementara — Epic 6 akan mengisi ini dari session yang login.
+    const { error: insertError } = await supabaseAdmin.from('menus').insert({
+      budget: budgetPerMeal,
+      portions,
+      ingredients_input: cheapIngredients ?? [],
+      ai_result: parsed.data,
+      user_id: null,
+    });
+
+    if (insertError) {
+      console.error('Gagal menyimpan menu ke riwayat:', insertError);
+      // Sengaja TIDAK menghentikan response — user tetap dapat hasil menunya
+      // meski penyimpanan riwayat gagal. Kegagalan simpan riwayat bukan alasan
+      // untuk gagalkan seluruh permintaan user.
     }
 
     return NextResponse.json({ result: parsed.data });
