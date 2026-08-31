@@ -1,6 +1,6 @@
 # 🥗 KilasGizi — Menu Sehat Sesuai Budget
 
-[![Live Demo](https://img.shields.io/badge/Demo-kilas--gizi.vercel.app-2D6A4F?style=for-the-badge&logo=vercel)](https://kilas-gizi.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Demo-kilasgizi.vercel.app-2D6A4F?style=for-the-badge&logo=vercel)](https://kilasgizi.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
@@ -8,7 +8,7 @@
 
 **KilasGizi** adalah aplikasi penyusun menu harian berbasis AI yang meracik resep bergizi seimbang berdasarkan alokasi budget belanja dan data fluktuasi harga komoditas pangan lokal secara real-time[cite: 1].
 
-🌐 **Akses Aplikasi Live:** [https://kilas-gizi.vercel.app/](https://kilas-gizi.vercel.app/)
+🌐 **Akses Aplikasi Live:** [https://kilasgizi.vercel.app/](https://kilasgizi.vercel.app/)
 
 ---
 
