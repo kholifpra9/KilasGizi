@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase';
 import type { MenuResult, CheapIngredient } from '@/lib/schemas';
 import { allocateBudgetPerMeal, type MealTime } from '@/lib/budget-allocation';
 import { createClient } from '@/lib/supabase/client';
+import { exportMenuToPdf } from '@/lib/export-pdf';
 
 export default function GenerateMenuPage() {
   const [budget, setBudget] = useState('');
@@ -108,6 +109,11 @@ export default function GenerateMenuPage() {
     window.location.reload();
   }
 
+  function handleDownloadPdf() {
+    if (!result) return;
+    exportMenuToPdf(result, { budget: Number(budget), portions: Number(portions) });
+  }
+
   const isFormValid = Number(budget) > 0 && Number(portions) > 0;
 
   return (
@@ -182,6 +188,10 @@ export default function GenerateMenuPage() {
       {result && (
         <div className="border rounded-lg p-4 space-y-3">
           <h2 className="font-semibold">{result.menu}</h2>
+
+          <Button variant="outline" size="sm" onClick={handleDownloadPdf}>
+            Download PDF
+          </Button>
 
           <div>
             <p className="text-sm font-medium">Bahan & Harga:</p>
