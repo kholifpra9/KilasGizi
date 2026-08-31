@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🥗 KilasGizi — Menu Sehat Sesuai Budget
 
-## Getting Started
+[![Live Demo](https://img.shields.io/badge/Demo-kilas--gizi.vercel.app-2D6A4F?style=for-the-badge&logo=vercel)](https://kilas-gizi.vercel.app/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.3.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-Auth_%26_DB-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com/)
 
-First, run the development server:
+**KilasGizi** adalah aplikasi penyusun menu harian berbasis AI yang meracik resep bergizi seimbang berdasarkan alokasi budget belanja dan data fluktuasi harga komoditas pangan lokal secara real-time[cite: 1].
+
+🌐 **Akses Aplikasi Live:** [https://kilas-gizi.vercel.app/](https://kilas-gizi.vercel.app/)
+
+---
+
+## ✨ Fitur Utama
+
+- **🤖 AI Menu Generator (`/generate-menu`):** Menghasilkan kombinasi resep harian (Pagi, Siang, Malam, atau Semua) berdasarkan alokasi budget dan jumlah porsi[cite: 1].
+- **📊 Integrasi Harga Pasar Real-Time:** Memanfaatkan data komoditas pangan termurah dari Supabase untuk kalkulasi alokasi bahan terakurat[cite: 1].
+- **📄 Ekspor PDF Resep:** Cetak dan unduh hasil menu yang dihasilkan langsung ke format PDF secara instan tanpa biaya server[cite: 1].
+- **📜 Riwayat Menu Tersimpan (`/history`):** Menyimpan daftar resep dan estimasi gizi yang pernah dibuat sebelumnya untuk pengguna terautentikasi[cite: 1].
+- **🔐 Autentikasi & Model Akses Freemium:** Pengunjung anonim dapat mencoba generate menu gratis, sementara pengguna login mendapatkan akses tanpa batas dan riwayat simpan[cite: 1].
+- **📱 Responsive & Mobile-Friendly:** Antarmuka bergaya *Editorial Modern* dengan skema warna alami (`kg-cream`, `kg-green`, `kg-tan`)[cite: 1].
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router) & [React 19](https://react.dev/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/), `@tailwindcss/postcss`, `tw-animate-css`
+- **UI Components & Icons:** Shadcn/ui (`@base-ui/react`), Hugeicons (`@hugeicons/react`)
+- **Backend & Database:** [Supabase](https://supabase.com/) (`@supabase/ssr` & `@supabase/supabase-js`)
+- **PDF Generation:** Client-side PDF export via `jspdf`
+- **Deployment:** [Vercel](https://vercel.com/)
+
+---
+
+## 🚀 Panduan Memulai (Local Development)
+
+### 1. Clone Repository & Install Dependencies
 
 ```bash
+git clone [https://github.com/username/kilasgizi.git](https://github.com/username/kilasgizi.git)
+cd kilasgizi
+npm install
+2. Setup Environment Variables
+Buat file .env.local di root project dan isi dengan kredensial Supabase serta API Key Groq:
+
+Cuplikan kode
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=[https://your-supabase-project.supabase.co](https://your-supabase-project.supabase.co)
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+
+# AI Engine (Groq / Provider Lain)
+GROQ_API_KEY=your-groq-api-key
+3. Jalankan Development Server
+Bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Buka http://localhost:3000 pada browser Anda.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📁 Struktur Folder Utama
+Plaintext
+kilasgizi/
+├── app/
+│   ├── api/
+│   │   └── generate-menu/    # Route handler integrasi AI & kuota
+│   ├── generate-menu/        # Form parameter & hasil resep
+│   ├── history/              # Halaman riwayat menu tersimpan
+│   ├── login/                # Halaman login & signup (Auth)
+│   ├── globals.css           # Konfigurasi Tailwind v4 & tema warna
+│   ├── layout.tsx            # Root layout dengan Navbar & Footer
+│   └── page.tsx              # Landing page utama
+├── components/
+│   ├── ui/                   # Komponen Reusable (Navbar, Footer, Logo, Input, Button)
+├── lib/
+│   ├── supabase/             # Supabase client & server instances
+│   ├── budget-allocation.ts  # Logic pembagian budget per waktu makan
+│   ├── export-pdf.ts         # Utility generate & download PDF
+│   └── schemas.ts            # Skema validasi Zod untuk AI response
+└── package.json
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+📝 Script yang Tersedia
+npm run dev — Menjalankan server pengembangan lokal
 
-## Learn More
+npm run build — Melakukan kompilasi dan build produksi
 
-To learn more about Next.js, take a look at the following resources:
+npm run start — Menjalankan server produksi hasil build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm run lint — Memeriksa kode menggunakan ESLint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🌐 Deployment
+Projek ini dikonfigurasi untuk langsung dapat dideploy di Vercel:
 
-## Deploy on Vercel
+Push repo ke GitHub / GitLab.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Import project ke dashboard Vercel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Masukkan Environment Variables (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, GROQ_API_KEY).
+
+Klik Deploy.
+
+© 2026 KilasGizi. All rights reserved. Makan Sehat Tanpa Bikin Kantong Bolong 💚

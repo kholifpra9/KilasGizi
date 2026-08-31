@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { KilasGiziLogo } from './logo';
 
 export function Footer() {
   return (
@@ -8,9 +9,8 @@ export function Footer() {
           
           {/* Deskripsi Brand */}
           <div className="md:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2 font-display text-xl font-bold tracking-tight text-kg-ink">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-kg-green/10 text-lg">🥗</span>
-              <span>Kilas<span className="text-kg-green">Gizi</span></span>
+            <Link href="/" className="hover:opacity-90 transition-opacity">
+                <KilasGiziLogo size={36} />
             </Link>
             <p className="text-xs text-kg-ink/70 leading-relaxed max-w-sm">
               Solusi cerdas penyusun menu harian bergizi seimbang yang menyesuaikan dengan alokasi budget belanja dan fluktuasi harga bahan pangan real-time.
