@@ -65,7 +65,6 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Eksekusi Logout saat mengonfirmasi di modal
   async function confirmLogout() {
     setShowLogoutModal(false);
     setDropdownOpen(false);
@@ -192,6 +191,16 @@ export function Navbar() {
           </button>
         </div>
 
+        {/* Pop-up Toast Notifikasi (Ditaruh tepat di bawah Navbar bagian kanan dekat akun) */}
+        {toastMessage && (
+          <div className="absolute right-6 top-16 z-50 flex items-center gap-3 rounded-2xl border border-kg-tan bg-card px-4 py-3 shadow-xl animate-in slide-in-from-top-3 duration-200">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-kg-green/10 text-sm">
+              ✨
+            </span>
+            <p className="text-xs font-bold text-kg-ink">{toastMessage}</p>
+          </div>
+        )}
+
         {/* Mobile Drawer */}
         {menuOpen && (
           <nav className="flex flex-col gap-2 border-b border-kg-tan bg-background px-6 py-4 shadow-lg md:hidden animate-in slide-in-from-top-2">
@@ -272,16 +281,6 @@ export function Navbar() {
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Pop-up Toast Notifikasi */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-2xl border border-kg-tan bg-card px-4 py-3 shadow-2xl animate-in slide-in-from-bottom-5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-kg-green/10 text-sm">
-            ✨
-          </span>
-          <p className="text-xs font-bold text-kg-ink">{toastMessage}</p>
         </div>
       )}
     </>

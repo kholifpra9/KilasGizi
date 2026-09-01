@@ -16,6 +16,7 @@ function LoginFormContent() {
   const [password, setPassword] = useState('');
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -36,9 +37,15 @@ function LoginFormContent() {
       return;
     }
 
-    // Lakukan refresh router untuk memperbarui session server & client
-    router.refresh();
-    router.push(redirectTo);
+    // Ubah tombol jadi status Sukses
+    setIsSuccess(true);
+    setIsLoading(false);
+
+    // Beri jeda 500ms agar mata pengguna menangkap efek sukses, lalu redirect smooth
+    setTimeout(() => {
+      router.refresh();
+      router.push(redirectTo);
+    }, 500);
   }
 
   return (
