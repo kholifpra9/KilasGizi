@@ -9,6 +9,7 @@ import type { MenuResult, CheapIngredient } from '@/lib/schemas';
 import { allocateBudgetPerMeal, type MealTime } from '@/lib/budget-allocation';
 import { createClient } from '@/lib/supabase/client';
 import { exportMenuToPdf } from '@/lib/export-pdf';
+import {IconArrowRight, IconBadePlus, IconMenu, IconPDF, IconVegetarionFood, } from '@/components/ui/icons';
 
 export default function GenerateMenuPage() {
   const [budget, setBudget] = useState('');
@@ -112,14 +113,14 @@ export default function GenerateMenuPage() {
       
       {/* Header Halaman */}
       <div className="mb-8 text-center max-w-lg mx-auto">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-kg-green/10 text-2xl mb-3">
-          ✨
+        <div className="inline-flex h-12 items-center justify-center rounded-full  text-2xl mb-3">
+          <IconBadePlus size={40} className="text-kg-green shrink-0"/>
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-kg-ink">
+            Buat Menu Sehat
+          </h1>
         </div>
-        <h1 className="font-display text-2xl md:text-3xl font-bold text-kg-ink">
-          Buat Menu Sehat
-        </h1>
         <p className="mt-1.5 text-xs md:text-sm text-kg-ink/60">
-          Isi budget dan porsi harianmu. AI KilasGizi akan meracik resep bernutrisi seimbang sesuai harga pasar lokal terkini.
+          Isi budget dan porsi harianmu. KilasGizi akan meracik resep bernutrisi seimbang sesuai harga pasar lokal terkini.
         </p>
 
         {!userEmail && (
@@ -181,7 +182,7 @@ export default function GenerateMenuPage() {
           {/* Context Bahan Termurah */}
           {!isLoadingIngredients && cheapIngredients.length > 0 && (
             <div className="rounded-2xl border border-kg-tan/60 bg-background p-3 text-[11px] text-kg-ink/70">
-              <span className="font-bold text-kg-green block mb-0.5">🥬 Acuan Bahan Pasar Murah Hari Ini:</span>
+              <span className=" inline-flex items-center gap-2 font-bold text-kg-green block mb-0.5"><IconVegetarionFood size={15} className="text-kg-ink shrink-0"/> Acuan Bahan Pasar Murah Hari Ini:</span>
               <p className="line-clamp-2">
                 {cheapIngredients.slice(0, 5).map((i) => i.name).join(', ')}
               </p>
@@ -193,7 +194,14 @@ export default function GenerateMenuPage() {
             disabled={isLoading || !isFormValid}
             className="w-full rounded-full bg-kg-green py-3 text-sm font-semibold text-white shadow-sm hover:bg-kg-green-dark transition-all disabled:opacity-50"
           >
-            {isLoading ? 'Sedang Meracik Resep AI...' : 'Racik Menu Sekarang ➔'}
+            {isLoading ? (
+              <span>Sedang Meracik Resep...</span>
+            ) : (
+              <span className="inline-flex items-center justify-center gap-2">
+                <span>Racik Menu Sekarang</span>
+                <IconArrowRight size={15} className="text-accent shrink-0" />
+              </span>
+            )}
           </Button>
 
           {errorMessage && (
@@ -215,7 +223,7 @@ export default function GenerateMenuPage() {
               
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-kg-tan/40 pb-4">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-kg-green">Rekomendasi Menu AI</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-kg-green">Rekomendasi Menu</span>
                   <h2 className="font-display text-xl font-bold text-kg-ink">{result.menu}</h2>
                 </div>
                 <Button
@@ -224,7 +232,7 @@ export default function GenerateMenuPage() {
                   onClick={handleDownloadPdf}
                   className="rounded-full border-kg-tan bg-background text-xs font-semibold text-kg-ink hover:bg-kg-tan/30 shrink-0"
                 >
-                  📄 Cetak PDF
+                  <IconPDF size={20} className="text-kg-ink shrink-0" /> Cetak PDF
                 </Button>
               </div>
 
@@ -267,7 +275,7 @@ export default function GenerateMenuPage() {
             </div>
           ) : (
             <div className="rounded-3xl border border-dashed border-kg-tan bg-card/50 p-12 text-center text-kg-ink/50 flex flex-col items-center justify-center min-h-[360px]">
-              <span className="text-4xl mb-3">🥗</span>
+              <span className="text-4xl mb-3"><IconMenu size={50} className="text-kg-ink shrink-0"/></span>
               <p className="text-sm font-semibold">Belum Ada Menu Dihasilkan</p>
               <p className="text-xs mt-1 max-w-xs text-kg-ink/40">
                 Silakan isi parameter budget dan jumlah porsi di sebelah kiri, lalu klik &quot;Racik Menu Sekarang&quot;.

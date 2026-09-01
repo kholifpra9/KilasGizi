@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import {IconArrowRight, IconChart, IconFire, IconMoneyBag, IconVegetarionFood, } from '@/components/ui/icons';
+
 
 export default function HomePage() {
   return (
@@ -36,7 +38,7 @@ export default function HomePage() {
                 href="/generate-menu"
                 className="inline-flex items-center justify-center rounded-full bg-kg-green px-8 py-4 font-semibold text-white shadow-md hover:bg-kg-green-dark transition-all"
               >
-                Rancang Menu Sekarang ➔
+                Rancang Menu Sekarang <IconArrowRight size={15} className="text-accent shrink-0" />
               </Link>
               <Link
                 href="#resep-populer"
@@ -66,7 +68,7 @@ export default function HomePage() {
 
             {/* Floating Card 1: Diskon / Hemat */}
             <div className="absolute top-10 right-0 md:-right-4 rounded-2xl bg-card/90 p-4 shadow-md backdrop-blur-md border border-kg-tan flex items-center gap-3">
-              <span className="text-2xl">🔥</span>
+              <span className="text-2xl"><IconFire size={16} className="text-kg-gold shrink-0" /></span>
               <div>
                 <p className="text-xs font-bold text-kg-ink">Hemat hingga 40%</p>
                 <p className="text-[10px] text-kg-ink/60">Berdasarkan data pasar real-time</p>
@@ -104,19 +106,19 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="rounded-3xl border border-kg-tan bg-background p-6 text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-kg-green/10 text-2xl">💰</div>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-kg-gold/20 text-2xl"><IconMoneyBag size={25} className="text-kg-ink shrink-0" /></div>
               <h3 className="font-bold text-lg mb-2">Sesuai Budget</h3>
               <p className="text-xs text-kg-ink/70">Cukup masukkan alokasi uang belanja kamu, sistem membaginya presisi untuk tiap waktu makan.</p>
             </div>
 
             <div className="rounded-3xl border border-kg-tan bg-background p-6 text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-kg-gold/20 text-2xl">🥬</div>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-kg-gold/20 text-2xl"><IconVegetarionFood size={25} className="text-kg-ink shrink-0" /></div>
               <h3 className="font-bold text-lg mb-2">Bahan Lokal Murah</h3>
               <p className="text-xs text-kg-ink/70">Memanfaatkan komoditas pasar lokal yang sedang turun harga atau stabil untuk efisiensi.</p>
             </div>
 
             <div className="rounded-3xl border border-kg-tan bg-background p-6 text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-kg-coral/20 text-2xl">📊</div>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-kg-gold/20 text-2xl"><IconChart size={25} className="text-kg-ink shrink-0" /></div>
               <h3 className="font-bold text-lg mb-2">Gizi Terukur</h3>
               <p className="text-xs text-kg-ink/70">Setiap resep dilengkapi estimasi kalori, makronutrisi, dan panduan memasak cepat.</p>
             </div>
@@ -131,8 +133,8 @@ export default function HomePage() {
             <span className="text-xs font-bold uppercase tracking-widest text-kg-coral">Inspirasi Harian</span>
             <h2 className="font-display text-3xl font-bold mt-1">Resep Hemat Pilihan AI</h2>
           </div>
-          <Link href="/generate-menu" className="text-sm font-semibold text-kg-green hover:underline">
-            Generate Menu Custom Anda →
+          <Link href="/generate-menu" className="inline-flex items-center gap-2 text-sm font-semibold text-kg-green hover:underline">
+            <span>Generate Menu Custom Anda</span> <IconArrowRight size={15} className="text-kg-green shrink-0" />
           </Link>
         </div>
 

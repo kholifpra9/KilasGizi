@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { KilasGiziLogo } from '@/components/ui/logo';
+import {IconBadePlus, IconLogin, IconLogout, IconNotification, IconTransactionHistory, IconWavingHand } from '@/components/ui/icons';
 
 const NAV_LINKS = [
   { href: '/generate-menu', label: 'Buat Menu' },
@@ -18,11 +19,12 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<React.ReactNode | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  
 
-  function showNotification(msg: string) {
-    setToastMessage(msg);
+  function showNotification(content: React.ReactNode) {
+    setToastMessage(content);
     setTimeout(() => {
       setToastMessage(null);
     }, 3500);
@@ -40,10 +42,20 @@ export function Navbar() {
 
       if (event === 'SIGNED_IN') {
         setUserEmail(email);
-        showNotification('🎉 Berhasil masuk ke akun KilasGizi!');
+        showNotification(
+          <span className="inline-flex items-center gap-2">
+            <IconNotification size={18} className="text-kg-gold shrink-0" />
+            <span>Berhasil masuk ke akun KilasGizi!</span>
+          </span>
+        );
       } else if (event === 'SIGNED_OUT') {
         setUserEmail(null);
-        showNotification('👋 Anda telah keluar dari akun.');
+        showNotification(
+          <span className="inline-flex items-center gap-2">
+            <IconWavingHand size={18} className="text-kg-coral shrink-0" />
+            <span>Anda telah keluar dari akun.</span>
+          </span>
+        );
       } else {
         setUserEmail(email);
       }
@@ -144,14 +156,14 @@ export function Navbar() {
                         onClick={() => setDropdownOpen(false)}
                         className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-kg-ink hover:bg-kg-tan/30 transition-colors"
                       >
-                        <span>✨</span> Buat Menu Baru
+                        <span><IconBadePlus size={18} className="text-kg-ink shrink-0" /></span> Buat Menu Baru
                       </Link>
                       <Link
                         href="/history"
                         onClick={() => setDropdownOpen(false)}
                         className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-kg-ink hover:bg-kg-tan/30 transition-colors"
                       >
-                        <span>📜</span> Riwayat Tersimpan
+                        <span><IconTransactionHistory size={18} className="text-kg-ink shrink-0" /></span> Riwayat Tersimpan
                       </Link>
                     </div>
 
@@ -163,7 +175,7 @@ export function Navbar() {
                         }}
                         className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-semibold text-kg-coral hover:bg-kg-coral/10 transition-colors"
                       >
-                        <span>🚪</span> Keluar
+                        <span><IconLogout size={20} className="text-destructive shrink-0"/></span> Keluar
                       </button>
                     </div>
                   </div>
@@ -172,9 +184,10 @@ export function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="rounded-full bg-kg-green px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-kg-green-dark transition-all"
+                className="inline-flex items-center gap-2 rounded-full bg-kg-green px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-kg-green-dark transition-all"
               >
-                Masuk
+                <IconLogin size={20} className="text-kg-cream shrink-0" />
+                <span>Masuk</span>
               </Link>
             )}
           </div>
@@ -194,9 +207,6 @@ export function Navbar() {
         {/* Pop-up Toast Notifikasi (Ditaruh tepat di bawah Navbar bagian kanan dekat akun) */}
         {toastMessage && (
           <div className="absolute right-6 top-16 z-50 flex items-center gap-3 rounded-2xl border border-kg-tan bg-card px-4 py-3 shadow-xl animate-in slide-in-from-top-3 duration-200">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-kg-green/10 text-sm">
-              ✨
-            </span>
             <p className="text-xs font-bold text-kg-ink">{toastMessage}</p>
           </div>
         )}

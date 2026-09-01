@@ -1,6 +1,7 @@
 import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
 import type { MenuResult } from '@/lib/schemas';
 import Link from 'next/link';
+import {IconTransactionHistory } from '@/components/ui/icons';
 
 export default async function HistoryPage() {
   const supabaseServer = await createServerSupabaseClient();
@@ -23,12 +24,12 @@ export default async function HistoryPage() {
     <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
       {/* Header Halaman */}
       <div className="mb-8 text-center max-w-lg mx-auto">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-kg-green/10 text-2xl mb-3">
-          📜
+        <div className="inline-flex h-12 items-center justify-center rounded-full  text-2xl mb-3">
+          <IconTransactionHistory size={30} className="text-kg-green shrink-0" />
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-kg-ink">
+            Riwayat Menu
+          </h1>
         </div>
-        <h1 className="font-display text-2xl md:text-3xl font-bold text-kg-ink">
-          Riwayat Menu
-        </h1>
         <p className="mt-1.5 text-xs md:text-sm text-kg-ink/60">
           Kumpulan resep & menu bergizi seimbang yang pernah kamu buat sebelumnya.
         </p>

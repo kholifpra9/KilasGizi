@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { createClient } from '@/lib/supabase/client';
+import { KilasGiziLogo } from '@/components/ui/logo';
 
 function LoginFormContent() {
   const router = useRouter();
@@ -53,7 +54,7 @@ function LoginFormContent() {
       {/* Header Icon & Brand */}
       <div className="mb-6 text-center">
         <Link href="/" className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-kg-green/10 text-2xl mb-3">
-          🥗
+          <KilasGiziLogo size={36} />
         </Link>
         <h1 className="font-display text-2xl font-bold text-kg-ink">
           {mode === 'login' ? 'Selamat Datang Kembali' : 'Buat Akun KilasGizi'}

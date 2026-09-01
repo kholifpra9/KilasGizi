@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { KilasGiziLogo } from './logo';
+import { KilasGiziLogo } from '@/components/ui/logo';
 
 export function Footer() {
   return (
