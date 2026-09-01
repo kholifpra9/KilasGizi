@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Baloo_2, Plus_Jakarta_Sans } from 'next/font/google';
-import { Navbar } from '@/components/ui/navbar';
+import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/ui/footer';
 import './globals.css';
 
